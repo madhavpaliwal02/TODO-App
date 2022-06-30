@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@page isELIgnored="false"%>
 <!doctype html>
 <html lang="en">
 <head>
@@ -14,23 +18,84 @@
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 	crossorigin="anonymous">
 
-<title>TODO! Application</title>
+<title><c:out value="${page }"></c:out></title>
 </head>
 <body>
+	<!-- Home Body -->
 	<div class="container mt-3">
+
+		<!-- Title -->
 		<h1 class="text-center">Welcome To The TODO Application</h1>
 
-		<div class="row mt-4">
-			<div class="col-md-3">
+		<!-- Condition - success -->
+		<c:if test="${not empty msg }">
+			<div class="alert alert-success">
+				<c:out value="${msg }"></c:out>
+			</div>
+		</c:if>
 
+		<!-- Container -->
+		<div class="row mt-4">
+		
+			<!-- Left Container -->
+			<div class="col-md-3">
 				<div class="list-group">
 					<a href="#" class="list-group-item list-group-item-action active">Menu</a>
-					<a href="#" class="list-group-item list-group-item-action">Add TODO</a> 
-					<a href="#" class="list-group-item list-group-item-action">View TODO</a>
+					<a href='<c:url value='/add'></c:url>'
+						class="list-group-item list-group-item-action">Add TODO</a> <a
+						href='<c:url value='/home'></c:url>'
+						class="list-group-item list-group-item-action">View TODO</a>
 				</div>
 			</div>
+			
+			<!-- Right Container -->
 			<div class="col-md-9">
-				<h3 class="text-center">Contents</h3>
+			
+				<!-- Condition - home -->
+				<c:if test="${page=='home' }">
+				
+					<!-- Title -->
+					<h1 class="text-center">All TODO's</h1>
+					
+					<!-- All Todos -->
+					<c:forEach items="${todos }" var="t">
+						<div class="card">
+							<div class="card-body">
+								<h6><c:out value="${t.todoTitle }"></c:out></h6>
+								<p><c:out value="${t.todoContent }"></c:out></p>
+							</div>
+						</div>
+					</c:forEach>
+					
+				</c:if>
+				<!-- Condition - add -->
+				<c:if test="${page=='add' }">
+				
+					<!-- Title -->
+					<h1 class="text-center">Add TODO</h1>
+					<br>
+					
+					<!-- Form -->
+					<form:form action="saveTodo" method="post" modelAttribute="todo">
+
+						<!-- TodoTitle -->
+						<div class="form-group">
+							<form:input path="todoTitle" cssClass="form-control"
+								placeholder="Enter ToDo Title" />
+						</div>
+						<!-- TodoContent -->
+						<div class="form-group">
+							<form:textarea path="todoContent" cssClass="form-control"
+								placeholder="Enter ToDo Content" cssStyle="height:9rem;" />
+						</div>
+						<!-- TodoButton -->
+						<div class="container text-center">
+							<button class="btn btn-outline-success">Add Todos</button>
+						</div>
+
+					</form:form>
+
+				</c:if>
 			</div>
 		</div>
 
