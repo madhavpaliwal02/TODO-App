@@ -3,15 +3,23 @@ package com.entities;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 public class ToDo {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int todoId;
 	private String todoTitle;
 	private String todoContent;
 	private Date todoDate;
-	
-	public ToDo(String todoTitle, String todoContent, Date todoDate) {
+
+	public ToDo(int todoId, String todoTitle, String todoContent, Date todoDate) {
 		super();
+		this.todoId = todoId;
 		this.todoTitle = todoTitle;
 		this.todoContent = todoContent;
 		this.todoDate = todoDate;
@@ -46,10 +54,17 @@ public class ToDo {
 		this.todoDate = todoDate;
 	}
 
+	public int getTodoId() {
+		return todoId;
+	}
+
+	public void setTodoId(int todoId) {
+		this.todoId = todoId;
+	}
+
 	@Override
 	public String toString() {
 		return "ToDo [todoTitle=" + todoTitle + "] : todoContent=" + todoContent;
 	}
-	
-	
+
 }

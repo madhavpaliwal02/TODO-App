@@ -12,20 +12,24 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.TodoDao.TodoDao;
 import com.entities.ToDo;
 
 @Controller
 public class HomeCtrl {
 
+//	@Autowired
+//	ServletContext con;
+	
 	@Autowired
-	ServletContext con;
+	TodoDao todoDao;
 
 	@RequestMapping("/home")
 	public String home(Model m) {
 		String str = "home";
 		m.addAttribute("page", str);
 		
-		List<ToDo> list = (List<ToDo>) con.getAttribute("list");
+		List<ToDo> list = todoDao.getAllTodos();
 		m.addAttribute("todos", list);
 		
 		return "home";
@@ -44,9 +48,7 @@ public class HomeCtrl {
 	public String saveTodo(@ModelAttribute("todo") ToDo t, Model m) {
 		t.setTodoDate(new Date());
 
-		List<ToDo> list = (List<ToDo>) con.getAttribute("list");
-		list.add(t);
-
+		todoDao.saveTodo(t);
 		m.addAttribute("msg", "Successfully Added...");
 
 		return "home";
