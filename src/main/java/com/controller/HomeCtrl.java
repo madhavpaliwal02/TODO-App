@@ -17,38 +17,41 @@ import com.entities.ToDo;
 
 @Controller
 public class HomeCtrl {
-
-//	@Autowired
-//	ServletContext con;
 	
+	@Autowired
+	ServletContext context;
+	
+	// To fetch through Autowired
 	@Autowired
 	TodoDao todoDao;
 
+	// Home page - View ToDo
 	@RequestMapping("/home")
 	public String home(Model m) {
-		String str = "home";
-		m.addAttribute("page", str);
+		m.addAttribute("page", "home");
 		
-		List<ToDo> list = todoDao.getAllTodos();
+		// Getting all todos from DB
+		List<ToDo> list = this.todoDao.getAllTodos();
 		m.addAttribute("todos", list);
 		
 		return "home";
 	}
 
+	// Home Page - Add Todo
 	@RequestMapping("/add")
 	public String addTodo(Model m) {
-
 		ToDo t = new ToDo();
 		m.addAttribute("page", "add");
 		m.addAttribute("todo", t);
 		return "home";
 	}
 
+	// Execute when submit fires
 	@RequestMapping(value = "/saveTodo", method = RequestMethod.POST)
 	public String saveTodo(@ModelAttribute("todo") ToDo t, Model m) {
 		t.setTodoDate(new Date());
 
-		todoDao.saveTodo(t);
+		this.todoDao.savingTodo(t);
 		m.addAttribute("msg", "Successfully Added...");
 
 		return "home";

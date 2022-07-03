@@ -1,3 +1,3 @@
-<%-- <%
-	response.sendRedirect(getServletConfig() + "/home");
-%> --%>
+<%
+response.sendRedirect(request.getContextPath() + "/home");
+%>

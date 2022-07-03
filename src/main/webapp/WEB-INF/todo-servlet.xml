@@ -3,25 +3,30 @@
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context.xsd
 	http://www.springframework.org/schema/mvc
-	http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+	http://www.springframework.org/schema/mvc/spring-mvc.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx.xsd
+	">
 
+	<tx:annotation-driven/>
+	
 	<mvc:annotation-driven
 		enable-matrix-variables="true" />
 
-	<context:component-scan
-		base-package="com.controller"></context:component-scan>
+	<context:component-scan base-package="com"></context:component-scan>
 
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
 		name="viewResovler">
 		<property name="prefix" value="/WEB-INF/pages/" />
 		<property name="suffix" value=".jsp" />
-	</bean>
+	</bean><!-- /WEB-INF/pages/home.jsp -->
 
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////// -->
 
@@ -30,20 +35,20 @@
 		name="ds">
 		<property name="driverClassName"
 			value="com.mysql.cj.jdbc.Driver" />
-		<property name="url" value="mysql:jdbc://localhost:3306/todo" />
+		<property name="url" value="jdbc:mysql://localhost:3306/todo" />
 		<property name="username" value="root" />
 		<property name="password" value="123456" />
 	</bean>
 
 	<bean
 		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"
-		name="factoryBean">
-		<property name="DataSource" ref="ds" />
+		name="sessionFactory">
+		<property name="dataSource" ref="ds" />
 
 		<property name="hibernateProperties">
 			<props>
-				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</prop>
-				<prop key="hibernate.hbm2ddl.auto">true</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL57Dialect</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
 				<prop key="hibernate.show_sql">true</prop>
 			</props>
 		</property>
@@ -56,10 +61,14 @@
 	</bean>
 
 
-	<bean class="org.springframework.orm.hibernate5.HibernateTemplate" name="hibernateTemplate">
-		<property name="sessionFactory" ref="factoryBean" />
+	<bean class="org.springframework.orm.hibernate5.HibernateTemplate"
+		name="hibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	
+	<bean class="org.springframework.orm.hibernate5.HibernateTransactionManager" name="transactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 
 </beans>
-
-<!-- /WEB-INF/pages/home.jsp -->
