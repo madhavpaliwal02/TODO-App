@@ -21,7 +21,7 @@ public class HomeCtrl {
 	@Autowired
 	ServletContext context;
 	
-	// To fetch through Autowired
+	// Fetching through Autowired
 	@Autowired
 	TodoDao todoDao;
 
@@ -56,4 +56,22 @@ public class HomeCtrl {
 
 		return "home";
 	}
+	
+	@RequestMapping("/update")
+	public String editTodo(@ModelAttribute("todo") ToDo t, Model m) {
+		
+		m.addAttribute("page", "add");
+		m.addAttribute("todo", t);
+		
+		m.addAttribute("msg", "Successfully Added...");
+		return null;
+	}
+	
+//	@RequestMapping("/delete")
+//	public String deleteTodo(@ModelAttribute("todo") ToDo t, Model m) {
+//		this.todoDao.deleteTodo(t.getTodoId());
+//		
+//		m.addAttribute("msg", "Successfully Deleted...");
+//		return "home";
+//	}
 }

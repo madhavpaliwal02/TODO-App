@@ -36,9 +36,9 @@
 
 		<!-- Container -->
 		<div class="row mt-4">
-		
+
 			<!-- Left Container -->
-			<div class="col-md-3">
+			<div class="col-md-3 mt-5">
 				<div class="list-group">
 					<a href="#" class="list-group-item list-group-item-action active">Menu</a>
 					<a href='<c:url value='/add'></c:url>'
@@ -47,34 +47,44 @@
 						class="list-group-item list-group-item-action">View TODO</a>
 				</div>
 			</div>
-			
+
 			<!-- Right Container -->
 			<div class="col-md-9">
-			
+
 				<!-- Condition - home -->
 				<c:if test="${page=='home' }">
-				
+
 					<!-- Title -->
 					<h1 class="text-center">All TODO's</h1>
-					
+
 					<!-- All Todos -->
 					<c:forEach items="${todos }" var="t">
 						<div class="card">
 							<div class="card-body">
-								<h6><c:out value="${t.todoTitle }"></c:out></h6>
-								<p><c:out value="${t.todoContent }"></c:out></p>
+								<h6>
+									<c:out value="${t.todoTitle }"></c:out>
+								</h6>
+								<p>
+									<c:out value="${t.todoContent }"></c:out>
+								</p>
+								<p>
+									<a href='<c:url value='/update'></c:url>'>Edit</a>
+									<a href='<c:url value='/delete'></c:url>'>Delete</a>
+								</p>
 							</div>
 						</div>
 					</c:forEach>
-					
+
 				</c:if>
+				
+				
 				<!-- Condition - add -->
 				<c:if test="${page=='add' }">
-				
+
 					<!-- Title -->
 					<h1 class="text-center">Add TODO</h1>
 					<br>
-					
+
 					<!-- Form -->
 					<form:form action="saveTodo" method="post" modelAttribute="todo">
 
