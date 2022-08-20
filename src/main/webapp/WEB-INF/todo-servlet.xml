@@ -14,8 +14,8 @@
 	http://www.springframework.org/schema/tx/spring-tx.xsd
 	">
 
-	<tx:annotation-driven/>
-	
+	<tx:annotation-driven />
+
 	<mvc:annotation-driven
 		enable-matrix-variables="true" />
 
@@ -26,7 +26,7 @@
 		name="viewResovler">
 		<property name="prefix" value="/WEB-INF/pages/" />
 		<property name="suffix" value=".jsp" />
-	</bean><!-- /WEB-INF/pages/home.jsp -->
+	</bean> <!-- /WEB-INF/pages/home.jsp -->
 
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////// -->
 
@@ -35,9 +35,9 @@
 		name="ds">
 		<property name="driverClassName"
 			value="com.mysql.cj.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/todo" />
-		<property name="username" value="root" />
-		<property name="password" value="123456" />
+		<property name="url" value="jdbc:mysql://localhost:3306/aws" />
+		<property name="username" value="madhav02" />
+		<property name="password" value="madhav02" />
 	</bean>
 
 	<bean
@@ -47,7 +47,7 @@
 
 		<property name="hibernateProperties">
 			<props>
-				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL57Dialect</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</prop>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 				<prop key="hibernate.show_sql">true</prop>
 			</props>
@@ -65,9 +65,11 @@
 		name="hibernateTemplate">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-	
-	
-	<bean class="org.springframework.orm.hibernate5.HibernateTransactionManager" name="transactionManager">
+
+
+	<bean
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager"
+		name="transactionManager">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 
